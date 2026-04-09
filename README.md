@@ -1,0 +1,1172 @@
+[audit.html](https://github.com/user-attachments/files/26590452/audit.html)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adobe × Frame.io — Content Systems Audit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #F7F5F2;
+    --bg-card: #FFFFFF;
+    --bg-muted: #EFEDE9;
+    --ink: #1A1916;
+    --ink-2: #4A4845;
+    --ink-3: #8A8880;
+    --border: rgba(26,25,22,0.10);
+    --border-strong: rgba(26,25,22,0.20);
+    --accent: #E8402A;
+    --accent-light: #FBE9E6;
+    --adobe-blue: #0C6EBD;
+    --adobe-blue-light: #E6F1FB;
+    --frame-purple: #534AB7;
+    --frame-purple-light: #EEEDFE;
+    --spectrum-green: #3B6D11;
+    --spectrum-green-light: #EAF3DE;
+    --amber: #854F0B;
+    --amber-light: #FAEEDA;
+    --red: #A32D2D;
+    --red-light: #FCEBEB;
+    --green: #27500A;
+    --green-light: #EAF3DE;
+    --serif: 'DM Serif Display', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+    --mono: 'DM Mono', monospace;
+    --radius: 10px;
+    --radius-sm: 6px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Layout ── */
+  .container { max-width: 860px; margin: 0 auto; padding: 0 32px; }
+  .container-wide { max-width: 1020px; margin: 0 auto; padding: 0 32px; }
+
+  /* ── Hero ── */
+  .hero {
+    padding: 72px 0 56px;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin-bottom: 18px;
+    color: var(--ink);
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero-sub {
+    font-size: 17px;
+    color: var(--ink-2);
+    max-width: 560px;
+    line-height: 1.6;
+    margin-bottom: 28px;
+  }
+  .pill-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .pill {
+    font-size: 12px;
+    font-family: var(--mono);
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid;
+    letter-spacing: 0.02em;
+  }
+  .pill-adobe { background: var(--adobe-blue-light); color: var(--adobe-blue); border-color: var(--adobe-blue); }
+  .pill-frame { background: var(--frame-purple-light); color: var(--frame-purple); border-color: var(--frame-purple); }
+  .pill-spectrum { background: var(--spectrum-green-light); color: var(--spectrum-green); border-color: var(--spectrum-green); }
+  .pill-date { background: var(--bg-muted); color: var(--ink-3); border-color: var(--border-strong); }
+
+  /* ── Nav ── */
+  .sticky-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(247,245,242,0.94);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0;
+  }
+  .nav-inner {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  .nav-inner::-webkit-scrollbar { display: none; }
+  .nav-link {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--ink-3);
+    text-decoration: none;
+    padding: 14px 16px;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .nav-link:hover { color: var(--ink); }
+  .nav-link.active { color: var(--ink); border-bottom-color: var(--ink); font-weight: 500; }
+
+  /* ── Sections ── */
+  .section { padding: 64px 0; border-bottom: 1px solid var(--border); }
+  .section:last-child { border-bottom: none; }
+  .section-eyebrow {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-family: var(--serif);
+    font-size: 28px;
+    font-weight: 400;
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+  .section-intro {
+    font-size: 15px;
+    color: var(--ink-2);
+    max-width: 620px;
+    line-height: 1.7;
+    margin-bottom: 36px;
+  }
+
+  /* ── Cards ── */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px 28px;
+    box-shadow: var(--shadow);
+  }
+  .card-grid { display: grid; gap: 16px; }
+  .card-grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .card-grid-2 { grid-template-columns: repeat(2, 1fr); }
+  .card h4 {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  .card p { font-size: 13px; color: var(--ink-2); line-height: 1.6; }
+
+  /* ── Metrics ── */
+  .metric-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 40px; }
+  .metric {
+    background: var(--bg-muted);
+    border-radius: var(--radius-sm);
+    padding: 18px 20px;
+    text-align: center;
+  }
+  .metric-num { font-family: var(--serif); font-size: 36px; line-height: 1; margin-bottom: 6px; }
+  .metric-label { font-size: 12px; color: var(--ink-3); }
+  .num-red { color: var(--red); }
+  .num-amber { color: var(--amber); }
+  .num-green { color: var(--green); }
+
+  /* ── Signal rows ── */
+  .signal-list { display: flex; flex-direction: column; gap: 0; }
+  .signal-row {
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    gap: 14px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: start;
+  }
+  .signal-row:last-child { border-bottom: none; }
+  .signal-dot {
+    width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 500; flex-shrink: 0; margin-top: 1px;
+  }
+  .dot-gap { background: var(--red-light); color: var(--red); }
+  .dot-partial { background: var(--amber-light); color: var(--amber); }
+  .dot-match { background: var(--green-light); color: var(--green); }
+  .signal-title { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+  .signal-desc { font-size: 13px; color: var(--ink-2); line-height: 1.6; }
+  .tag-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+  .tag {
+    font-size: 11px; font-family: var(--mono);
+    padding: 2px 8px; border-radius: 4px;
+    background: var(--bg-muted); color: var(--ink-3);
+    border: 1px solid var(--border);
+  }
+
+  /* ── Principle block ── */
+  .principle-block {
+    border-left: 3px solid var(--accent);
+    padding: 20px 24px;
+    background: var(--bg-card);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    margin-bottom: 36px;
+    box-shadow: var(--shadow);
+  }
+  .principle-block p { font-size: 16px; line-height: 1.7; color: var(--ink); }
+  .principle-block strong { font-weight: 500; }
+
+  /* ── Gap items ── */
+  .gap-list { display: flex; flex-direction: column; gap: 0; }
+  .gap-item {
+    display: grid;
+    grid-template-columns: 40px 1fr auto;
+    gap: 16px;
+    align-items: start;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .gap-item:last-child { border-bottom: none; }
+  .gap-rank {
+    width: 36px; height: 36px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 500; flex-shrink: 0;
+    font-family: var(--mono);
+  }
+  .r1 { background: var(--red-light); color: var(--red); }
+  .r2 { background: var(--red-light); color: var(--red); }
+  .r3 { background: var(--amber-light); color: var(--amber); }
+  .r4 { background: var(--amber-light); color: var(--amber); }
+  .r5 { background: var(--amber-light); color: var(--amber); }
+  .r6 { background: var(--green-light); color: var(--green); }
+  .r7 { background: var(--green-light); color: var(--green); }
+  .r8 { background: var(--bg-muted); color: var(--ink-3); }
+  .gap-body h4 { font-size: 14px; font-weight: 500; margin-bottom: 5px; }
+  .gap-body p { font-size: 13px; color: var(--ink-2); line-height: 1.6; }
+  .gap-example {
+    margin-top: 10px;
+    padding: 9px 13px;
+    background: var(--bg-muted);
+    border-radius: var(--radius-sm);
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--ink-2);
+    border-left: 2px solid var(--border-strong);
+  }
+  .impact {
+    font-size: 11px; font-family: var(--mono);
+    padding: 4px 10px; border-radius: 20px;
+    white-space: nowrap; flex-shrink: 0; margin-top: 2px;
+  }
+  .imp-critical { background: var(--red-light); color: var(--red); }
+  .imp-high { background: var(--amber-light); color: var(--amber); }
+  .imp-medium { background: var(--amber-light); color: var(--amber); }
+  .imp-low { background: var(--green-light); color: var(--green); }
+
+  /* ── Rewrites ── */
+  .rw-item {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow);
+  }
+  .rw-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 16px;
+    background: var(--bg-muted);
+    border-bottom: 1px solid var(--border);
+  }
+  .rw-header-label { font-size: 12px; color: var(--ink-2); font-weight: 500; }
+  .rw-type-tag {
+    font-size: 11px; font-family: var(--mono);
+    padding: 2px 8px; border-radius: 4px;
+    background: var(--bg-card); border: 1px solid var(--border);
+    color: var(--ink-3);
+  }
+  .rw-cols { display: grid; grid-template-columns: 1fr 1fr; }
+  .rw-col { padding: 16px 20px; }
+  .rw-col:first-child { border-right: 1px solid var(--border); }
+  .rw-col-label {
+    font-size: 10px; font-family: var(--mono); text-transform: uppercase;
+    letter-spacing: 0.1em; font-weight: 500; margin-bottom: 8px;
+  }
+  .label-b { color: var(--red); }
+  .label-a { color: var(--green); }
+  .copy-before { font-size: 14px; color: var(--ink-3); line-height: 1.55; }
+  .copy-after { font-size: 14px; color: var(--ink); line-height: 1.55; }
+  .rw-rationale {
+    padding: 12px 20px;
+    background: var(--bg-muted);
+    border-top: 1px solid var(--border);
+    font-size: 12px; color: var(--ink-2); line-height: 1.55;
+  }
+  .principle-tag {
+    display: inline-block; font-size: 10px; font-family: var(--mono);
+    padding: 2px 7px; border-radius: 3px;
+    background: var(--spectrum-green-light); color: var(--spectrum-green);
+    border: 1px solid rgba(59,109,17,0.3);
+    margin-right: 4px; margin-bottom: 3px;
+  }
+
+  /* ── Glossary ── */
+  .gl-filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+  .filter-btn {
+    font-size: 12px; font-family: var(--mono);
+    padding: 6px 14px; border: 1px solid var(--border-strong);
+    border-radius: 20px; background: none; cursor: pointer;
+    color: var(--ink-2); transition: all 0.15s;
+  }
+  .filter-btn:hover { background: var(--bg-muted); }
+  .filter-btn.active { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .gl-item {
+    display: grid; grid-template-columns: 200px 1fr;
+    gap: 20px; align-items: start;
+    padding: 18px 0; border-bottom: 1px solid var(--border);
+  }
+  .gl-item:last-child { border-bottom: none; }
+  .gl-term { font-size: 15px; font-weight: 500; margin-bottom: 4px; }
+  .gl-type { font-size: 11px; font-family: var(--mono); color: var(--ink-3); }
+  .gl-def { font-size: 13px; line-height: 1.65; margin-bottom: 8px; }
+  .gl-usage {
+    font-size: 12px; color: var(--ink-3); line-height: 1.6;
+  }
+  .gl-usage code {
+    font-family: var(--mono); font-size: 11px;
+    background: var(--bg-muted); padding: 1px 5px;
+    border-radius: 3px; border: 1px solid var(--border);
+    color: var(--ink-2);
+  }
+  .gl-conflict {
+    margin-top: 8px; font-size: 12px; color: var(--amber);
+    background: var(--amber-light); padding: 7px 11px;
+    border-radius: var(--radius-sm); border: 1px solid rgba(133,79,11,0.2);
+    line-height: 1.55;
+  }
+
+  /* ── Roadmap ── */
+  .phase-list { display: flex; flex-direction: column; gap: 0; }
+  .phase-item {
+    display: grid; grid-template-columns: 100px 1fr;
+    gap: 24px; padding: 28px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .phase-item:last-child { border-bottom: none; }
+  .phase-label {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--ink-3); text-transform: uppercase;
+    letter-spacing: 0.08em; padding-top: 2px;
+  }
+  .phase-label strong {
+    display: block; font-family: var(--serif);
+    font-size: 22px; font-weight: 400;
+    color: var(--ink); letter-spacing: 0; text-transform: none;
+    margin-bottom: 2px;
+  }
+  .phase-body h4 { font-size: 15px; font-weight: 500; margin-bottom: 6px; }
+  .phase-body > p { font-size: 13px; color: var(--ink-2); line-height: 1.7; margin-bottom: 14px; }
+  .week-list { display: flex; flex-direction: column; gap: 8px; }
+  .week-item {
+    display: grid; grid-template-columns: 80px 1fr;
+    gap: 12px; font-size: 13px;
+  }
+  .week-num {
+    font-family: var(--mono); font-size: 11px; color: var(--ink-3);
+    padding-top: 2px;
+  }
+  .week-desc { color: var(--ink-2); line-height: 1.6; }
+  .week-desc strong { font-weight: 500; color: var(--ink); }
+  .spectrum-callout {
+    margin-top: 14px; padding: 11px 15px;
+    background: var(--spectrum-green-light);
+    border: 1px solid rgba(59,109,17,0.25);
+    border-radius: var(--radius-sm);
+    font-size: 12px; color: var(--spectrum-green); line-height: 1.55;
+  }
+  .spectrum-callout strong { font-weight: 500; }
+
+  /* ── Principle full section ── */
+  .infra-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 28px; }
+  .infra-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px 24px;
+    box-shadow: var(--shadow);
+  }
+  .infra-card h4 { font-size: 14px; font-weight: 500; margin-bottom: 8px; }
+  .infra-card p { font-size: 13px; color: var(--ink-2); line-height: 1.65; }
+  .infra-num {
+    font-family: var(--serif); font-size: 28px; color: var(--accent);
+    margin-bottom: 6px; line-height: 1;
+  }
+
+  /* ── Sub-tab nav ── */
+  .sub-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); margin-bottom: 32px; }
+  .sub-tab-btn {
+    font-size: 13px; background: none; border: none;
+    border-bottom: 2px solid transparent; padding: 10px 16px;
+    cursor: pointer; color: var(--ink-3);
+    transition: color 0.15s; white-space: nowrap;
+  }
+  .sub-tab-btn:hover { color: var(--ink); }
+  .sub-tab-btn.active { color: var(--ink); border-bottom-color: var(--ink); font-weight: 500; }
+  .sub-panel { display: none; }
+  .sub-panel.active { display: block; }
+
+  /* ── Tension box ── */
+  .tension-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--frame-purple);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 22px 26px;
+    margin-top: 28px;
+    box-shadow: var(--shadow);
+  }
+  .tension-box p { font-size: 16px; line-height: 1.7; }
+
+  /* ── Footer ── */
+  .footer {
+    padding: 48px 0 64px;
+    text-align: center;
+  }
+  .footer p { font-size: 13px; color: var(--ink-3); line-height: 1.7; }
+  .footer a { color: var(--ink-2); text-decoration: none; border-bottom: 1px solid var(--border-strong); }
+
+  /* ── Animations ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero h1 { animation: fadeUp 0.6s ease both; }
+  .hero-sub { animation: fadeUp 0.6s 0.1s ease both; }
+  .pill-row { animation: fadeUp 0.6s 0.2s ease both; }
+
+  /* ── Responsive ── */
+  @media (max-width: 720px) {
+    .container, .container-wide { padding: 0 20px; }
+    .card-grid-3 { grid-template-columns: 1fr; }
+    .card-grid-2 { grid-template-columns: 1fr; }
+    .metric-row { grid-template-columns: repeat(2, 1fr); }
+    .rw-cols { grid-template-columns: 1fr; }
+    .rw-col:first-child { border-right: none; border-bottom: 1px solid var(--border); }
+    .gl-item { grid-template-columns: 1fr; gap: 8px; }
+    .phase-item { grid-template-columns: 1fr; gap: 8px; }
+    .infra-grid { grid-template-columns: 1fr; }
+    .gap-item { grid-template-columns: 36px 1fr; }
+    .gap-item .impact { display: none; }
+    .hero h1 { font-size: 32px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="container">
+    <p class="hero-eyebrow">Content Strategy · Interview Preparation · April 2026</p>
+    <h1>Adobe × Frame.io<br><em>Content Systems Audit</em></h1>
+    <p class="hero-sub">A cross-brand audit of voice, terminology, UX writing patterns, and design system alignment — vetted against Spectrum 2 standards. Prepared by Josh for the Staff Content Strategist role on the Frame.io product team.</p>
+    <div class="pill-row">
+      <span class="pill pill-adobe">Adobe.com</span>
+      <span class="pill pill-frame">Frame.io</span>
+      <span class="pill pill-spectrum">Spectrum 2</span>
+      <span class="pill pill-date">April 2026</span>
+    </div>
+  </div>
+</div>
+
+<!-- Sticky nav -->
+<nav class="sticky-nav" aria-label="Audit sections">
+  <div class="nav-inner">
+    <a href="#overview" class="nav-link active">Overview</a>
+    <a href="#principle" class="nav-link">Core principle</a>
+    <a href="#voice" class="nav-link">Voice & tone</a>
+    <a href="#terminology" class="nav-link">Terminology</a>
+    <a href="#patterns" class="nav-link">UX patterns</a>
+    <a href="#rewrites" class="nav-link">Rewrites</a>
+    <a href="#glossary" class="nav-link">Glossary</a>
+    <a href="#gaps" class="nav-link">Gap analysis</a>
+    <a href="#roadmap" class="nav-link">30/60/90 roadmap</a>
+  </div>
+</nav>
+
+<!-- ── OVERVIEW ── -->
+<section id="overview" class="section">
+  <div class="container">
+    <p class="section-eyebrow">01 — Overview</p>
+    <h2 class="section-title">The landscape</h2>
+    <p class="section-intro">This audit examines Adobe and Frame.io across six dimensions — voice/tone, terminology, UX writing patterns, accessibility, grammar/mechanics, and systems alignment — benchmarked against Spectrum 2. It surfaces gaps, names their priority, and proposes a structured plan to close them.</p>
+
+    <div class="metric-row">
+      <div class="metric">
+        <div class="metric-num num-red">8</div>
+        <div class="metric-label">Critical gaps</div>
+      </div>
+      <div class="metric">
+        <div class="metric-num num-amber">14</div>
+        <div class="metric-label">Terminology conflicts</div>
+      </div>
+      <div class="metric">
+        <div class="metric-num num-amber">6</div>
+        <div class="metric-label">Voice divergences</div>
+      </div>
+      <div class="metric">
+        <div class="metric-num num-green">3</div>
+        <div class="metric-label">Alignment strengths</div>
+      </div>
+    </div>
+
+    <div class="card-grid card-grid-3">
+      <div class="card">
+        <h4 style="color: var(--adobe-blue);">Adobe.com</h4>
+        <p>Enterprise-scale brand. Spectrum 2 is mid-rollout. Voice is aspirational, authoritative — "Creativity for All." Heavy use of product names as anchors. Marketing copy leans inspirational, often relying on passive constructions.</p>
+      </div>
+      <div class="card">
+        <h4 style="color: var(--frame-purple);">Frame.io</h4>
+        <p>Pre-acquisition voice is still dominant: direct, practitioner-first, industry-fluent. Dark aesthetic roots. Uses film and production vernacular natively. Spectrum patterns are inconsistently applied; own brand DNA persists post-acquisition.</p>
+      </div>
+      <div class="card">
+        <h4 style="color: var(--spectrum-green);">Spectrum 2 standard</h4>
+        <p>Single voice across products; tone shifts by context. Sentence case everywhere. Active voice preferred. Inclusive writing as a baseline. WCAG AA+ for accessibility. Component-level style defers to system, not product.</p>
+      </div>
+    </div>
+
+    <div class="tension-box">
+      <p>Frame.io was acquired for its differentiation — its community, culture, and direct voice are core product values. The content strategy job is to <strong>harmonize without homogenizing</strong>: bring Frame.io into alignment with Spectrum's system thinking while preserving the practitioner-first identity that makes it trusted by editors, DPs, and producers worldwide.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── CORE PRINCIPLE ── -->
+<section id="principle" class="section">
+  <div class="container">
+    <p class="section-eyebrow">02 — Core principle</p>
+    <h2 class="section-title">Build infrastructure, not docs</h2>
+    <p class="section-intro">The most common failure mode in content strategy is treating an audit as a one-time deliverable. The goal here is different: build a process the team can run repeatedly, that surfaces new gaps as the product ships, and that doesn't require a single person to be the bottleneck.</p>
+
+    <div class="principle-block">
+      <p>A content audit isn't a deliverable — it's <strong>infrastructure</strong>. The output isn't a fixed document. It's a system: a shared rubric, a living glossary, a critique ritual, and a team that can make better content decisions independently. The goal is to raise the floor, not to be the sole ceiling-checker.</p>
+    </div>
+
+    <div class="infra-grid">
+      <div class="infra-card">
+        <div class="infra-num">01</div>
+        <h4>Define "correct" before auditing</h4>
+        <p>Before scoring anything, establish the rubric. For Frame.io, that means pulling Spectrum's voice principles, grammar rules, and inclusive writing guidance as the baseline — then documenting where Spectrum is silent on Frame.io-specific needs. Those gaps are yours to define.</p>
+      </div>
+      <div class="infra-card">
+        <div class="infra-num">02</div>
+        <h4>Map every surface, not just the obvious ones</h4>
+        <p>Core UI, error states, empty states, onboarding, notifications, the embedded Premiere panel, help docs, and marketing site strings that set expectations before users enter the product. The map exists so you can prioritize intelligently — not to audit everything at once.</p>
+      </div>
+      <div class="infra-card">
+        <div class="infra-num">03</div>
+        <h4>Audit as a team sport</h4>
+        <p>Score strings against the rubric collaboratively — involve two or three designers. This distributes the work and, more importantly, builds shared understanding of content standards across the team. The audit becomes a teaching artifact, not just a bug list.</p>
+      </div>
+      <div class="infra-card">
+        <div class="infra-num">04</div>
+        <h4>Three parallel fix tracks</h4>
+        <p>Separate work into quick wins (sentence case fixes, passive-to-active rewrites), pattern decisions (things that need a defined standard before any string can be fixed), and product/strategy decisions (cross-functional terminology conflicts). Running these in parallel is what makes a team move fast.</p>
+      </div>
+      <div class="infra-card">
+        <div class="infra-num">05</div>
+        <h4>Integrate into the design workflow</h4>
+        <p>New features don't ship without a content pass. A lightweight checklist in the design handoff template does the work without requiring a formal process. The goal is content-first thinking baked in, not bolted on.</p>
+      </div>
+      <div class="infra-card">
+        <div class="infra-num">06</div>
+        <h4>A critique ritual, not a training deck</h4>
+        <p>A short weekly or bi-weekly session where the team reviews new strings against the guidelines. This is how you mentor designers and PMs on content standards without writing a document nobody reads. The guidelines doc is a living product — version it, update it, and assign ownership.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── VOICE & TONE ── -->
+<section id="voice" class="section">
+  <div class="container">
+    <p class="section-eyebrow">03 — Voice & tone</p>
+    <h2 class="section-title">Signal-by-signal breakdown</h2>
+    <p class="section-intro">Comparing Adobe and Frame.io voice patterns against Spectrum 2's single-voice, variable-tone model. Each signal is rated: aligned, partially aligned, or a gap.</p>
+
+    <div class="signal-list">
+      <div class="signal-row">
+        <div class="signal-dot dot-gap">G</div>
+        <div>
+          <div class="signal-title">Sentence case consistency</div>
+          <div class="signal-desc">Spectrum mandates sentence case throughout. Adobe marketing uses title case in CTAs and feature headlines. Frame.io product UI mixes both — navigation items often use title case while tooltip copy uses sentence case. No product-level rule has been documented for Frame.io.</div>
+          <div class="tag-row"><span class="tag">Grammar</span><span class="tag">Consistency</span><span class="tag">Both brands</span></div>
+        </div>
+      </div>
+      <div class="signal-row">
+        <div class="signal-dot dot-gap">G</div>
+        <div>
+          <div class="signal-title">Active vs passive voice</div>
+          <div class="signal-desc">Spectrum prefers active voice. Adobe marketing copy frequently relies on passive constructions ("content can be delivered," "teams are empowered"). Frame.io's blog and marketing copy is more active, but product UI strings show passive constructions in status messages and empty states.</div>
+          <div class="tag-row"><span class="tag">Voice</span><span class="tag">In-product</span></div>
+        </div>
+      </div>
+      <div class="signal-row">
+        <div class="signal-dot dot-partial">P</div>
+        <div>
+          <div class="signal-title">Tone differentiation by context</div>
+          <div class="signal-desc">Spectrum calls for a single voice with shifting tone (professional → encouraging → empathetic). Frame.io nails this in its editorial writing — direct, warm, practitioner-fluent. The gap is in-product: error messages and onboarding copy haven't been updated to reflect this tonal model.</div>
+          <div class="tag-row"><span class="tag">Tone</span><span class="tag">Error states</span><span class="tag">Onboarding</span></div>
+        </div>
+      </div>
+      <div class="signal-row">
+        <div class="signal-dot dot-gap">G</div>
+        <div>
+          <div class="signal-title">Second person / user-addressing</div>
+          <div class="signal-desc">Spectrum favors second person ("you") for in-product writing. Frame.io marketing uses "your team," "your workflow" — good. But in-product UI frequently drops the user as subject entirely: "File upload in progress" instead of "Your file is uploading."</div>
+          <div class="tag-row"><span class="tag">UX writing</span><span class="tag">In-product</span></div>
+        </div>
+      </div>
+      <div class="signal-row">
+        <div class="signal-dot dot-match">✓</div>
+        <div>
+          <div class="signal-title">Industry-fluent vocabulary</div>
+          <div class="signal-desc">Frame.io uses production-accurate language: timecode, SMPTE, version stacks, proxies, dailies. This is a documented strength and should be preserved and codified — it's what differentiates Frame.io from generic cloud storage in the eyes of professional users.</div>
+          <div class="tag-row"><span class="tag">Strength</span><span class="tag">Terminology</span></div>
+        </div>
+      </div>
+      <div class="signal-row">
+        <div class="signal-dot dot-partial">P</div>
+        <div>
+          <div class="signal-title">Inclusive language baseline</div>
+          <div class="signal-desc">Spectrum has an explicit inclusive UX writing guide. Frame.io's existing content has gaps — the word "master" appears in legacy API and workflow documentation. Adobe's marketing copy is more consistently updated. No documented Frame.io inclusive language audit has been published.</div>
+          <div class="tag-row"><span class="tag">Accessibility</span><span class="tag">Inclusion</span><span class="tag">Docs</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TERMINOLOGY ── -->
+<section id="terminology" class="section">
+  <div class="container">
+    <p class="section-eyebrow">04 — Terminology</p>
+    <h2 class="section-title">Conflicts & strengths</h2>
+    <p class="section-intro">Frame.io and Adobe use overlapping but inconsistently defined terms across their products. These create cognitive dissonance for users who move between apps and signal a content systems gap that a shared glossary can address.</p>
+
+    <div class="card-grid card-grid-2">
+      <div class="card">
+        <h4 style="color: var(--red);">Conflicting terms</h4>
+        <div class="signal-list" style="margin-top: 12px;">
+          <div class="signal-row" style="padding: 10px 0;">
+            <div class="signal-dot dot-gap" style="width: 22px; height: 22px; font-size: 10px;">G</div>
+            <div>
+              <div class="signal-title" style="font-size: 13px;">"Project"</div>
+              <div class="signal-desc" style="font-size: 12px;">Frame.io: top-level asset container. Creative Cloud: a .prproj file. Different mental models, identical word.</div>
+            </div>
+          </div>
+          <div class="signal-row" style="padding: 10px 0;">
+            <div class="signal-dot dot-gap" style="width: 22px; height: 22px; font-size: 10px;">G</div>
+            <div>
+              <div class="signal-title" style="font-size: 13px;">"Collection"</div>
+              <div class="signal-desc" style="font-size: 12px;">Frame.io V4: smart folder. Lightroom: manual or smart photo group. Similar concept, different scope.</div>
+            </div>
+          </div>
+          <div class="signal-row" style="padding: 10px 0;">
+            <div class="signal-dot dot-gap" style="width: 22px; height: 22px; font-size: 10px;">G</div>
+            <div>
+              <div class="signal-title" style="font-size: 13px;">"Review"</div>
+              <div class="signal-desc" style="font-size: 12px;">Frame.io: a shareable feedback session. Adobe marketing: a generic verb. No shared taxonomy for review vs approval.</div>
+            </div>
+          </div>
+          <div class="signal-row" style="padding: 10px 0; border-bottom: none;">
+            <div class="signal-dot dot-gap" style="width: 22px; height: 22px; font-size: 10px;">G</div>
+            <div>
+              <div class="signal-title" style="font-size: 13px;">"Workspace"</div>
+              <div class="signal-desc" style="font-size: 12px;">Frame.io: account-level scope. Creative Cloud apps: panel layout config. Same word, unrelated concepts.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <h4 style="color: var(--green);">Frame.io-native terms to preserve</h4>
+        <div class="signal-list" style="margin-top: 12px;">
+          <div class="signal-row" style="padding: 10px 0;">
+            <div class="signal-dot dot-match" style="width: 22px; height: 22px; font-size: 10px;">✓</div>
+            <div>
+              <div class="signal-title" style="font-size: 13px;">Version stack</div>
+              <div class="signal-desc" style="font-size: 12px;">Unique, precise, and production-meaningful. Should be codified and protected in the glossary.</div>
+            </div>
+          </div>
+          <div class="signal-row" style="padding: 10px 0;">
+            <div class="signal-dot dot-match" style="width: 22px; height: 22px; font-size: 10px;">✓</div>
+            <div>
+              <div class="signal-title" style="font-size: 13px;">Camera to Cloud</div>
+              <div class="signal-desc" style="font-size: 12px;">Flagship workflow feature. Proper noun. Needs explicit capitalization and cross-brand attribution guidance.</div>
+            </div>
+          </div>
+          <div class="signal-row" style="padding: 10px 0;">
+            <div class="signal-dot dot-match" style="width: 22px; height: 22px; font-size: 10px;">✓</div>
+            <div>
+              <div class="signal-title" style="font-size: 13px;">Timecode comment</div>
+              <div class="signal-desc" style="font-size: 12px;">Frame-accurate annotation is a core differentiator. Canonical form needed: two words, no hyphen.</div>
+            </div>
+          </div>
+          <div class="signal-row" style="padding: 10px 0; border-bottom: none;">
+            <div class="signal-dot dot-match" style="width: 22px; height: 22px; font-size: 10px;">✓</div>
+            <div>
+              <div class="signal-title" style="font-size: 13px;">Dailies</div>
+              <div class="signal-desc" style="font-size: 12px;">Production-fluent vocabulary. Should be retained for professional audiences; substitute "footage" for broader onboarding contexts.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── UX PATTERNS ── -->
+<section id="patterns" class="section">
+  <div class="container">
+    <p class="section-eyebrow">05 — UX writing patterns</p>
+    <h2 class="section-title">Pattern-by-pattern audit</h2>
+    <p class="section-intro">An assessment of how Frame.io's most common UI writing patterns hold up against Spectrum 2 component-level guidance.</p>
+
+    <div class="signal-list">
+      <div class="signal-row">
+        <div class="signal-dot dot-gap">G</div>
+        <div>
+          <div class="signal-title">Error messages</div>
+          <div class="signal-desc">Spectrum pattern: explain what happened, why, and what to do next. Frame.io error messages are often truncated system strings — "Upload failed," "Access denied." They omit both the user as subject and any path forward. Adobe product errors follow Spectrum more closely but are inconsistently applied in Frame.io's embedded Premiere panel.</div>
+          <div class="tag-row"><span class="tag">High frequency</span><span class="tag">High visibility</span><span class="tag">Quick fix</span></div>
+        </div>
+      </div>
+      <div class="signal-row">
+        <div class="signal-dot dot-partial">P</div>
+        <div>
+          <div class="signal-title">Empty states</div>
+          <div class="signal-desc">Frame.io V4 has improved empty state copy — the search empty state uses direct, conversational language. Older areas of the product still use generic placeholder text that doesn't meet Spectrum's action-oriented empty state pattern. No Frame.io-specific empty state guidelines exist yet.</div>
+          <div class="tag-row"><span class="tag">Mixed</span><span class="tag">V4 vs legacy gap</span></div>
+        </div>
+      </div>
+      <div class="signal-row">
+        <div class="signal-dot dot-gap">G</div>
+        <div>
+          <div class="signal-title">Button labels & CTAs</div>
+          <div class="signal-desc">Spectrum is unambiguous: sentence case, verb-first. Frame.io UI shows all three patterns on the same screen — "Create New Project" (title case), "Upload files" (sentence case), "Add to collection" (sentence case). Adobe marketing CTAs use title case universally, a documented brand divergence from Spectrum's in-product standard.</div>
+          <div class="tag-row"><span class="tag">Highest visibility</span><span class="tag">Sentence case fix</span></div>
+        </div>
+      </div>
+      <div class="signal-row">
+        <div class="signal-dot dot-partial">P</div>
+        <div>
+          <div class="signal-title">Onboarding & tooltips</div>
+          <div class="signal-desc">Frame.io V4 onboarding is product-led and intentionally minimal. New tooltip copy is sparse and consistent. Legacy V3-era tooltips (still present in older product areas) are verbose and don't follow Spectrum's compact, action-oriented pattern. No cross-version onboarding audit has been completed.</div>
+          <div class="tag-row"><span class="tag">V3 legacy</span><span class="tag">Needs audit</span></div>
+        </div>
+      </div>
+      <div class="signal-row">
+        <div class="signal-dot dot-match">✓</div>
+        <div>
+          <div class="signal-title">Notifications & success toasts</div>
+          <div class="signal-desc">Frame.io's success toast messages are concise and action-confirming — aligned with Spectrum's non-disruptive notification pattern. This is a documented strength. The pattern should be written up and used as a reference model for other Frame.io UI patterns going forward.</div>
+          <div class="tag-row"><span class="tag">Strength</span><span class="tag">Reference pattern</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── REWRITES ── -->
+<section id="rewrites" class="section">
+  <div class="container">
+    <p class="section-eyebrow">06 — Before / after rewrites</p>
+    <h2 class="section-title">Spectrum voice principles applied</h2>
+    <p class="section-intro">Every "before" string either drops the user from the sentence, leaves them with no path forward, or violates a Spectrum mechanic — usually sentence case. The "after" strings fix all three at once. That's the rubric applied to any string in the product.</p>
+
+    <div class="sub-tabs">
+      <button class="sub-tab-btn active" onclick="switchSub('rw-errors', 'rw-group', this)">Error messages</button>
+      <button class="sub-tab-btn" onclick="switchSub('rw-empty', 'rw-group', this)">Empty states</button>
+      <button class="sub-tab-btn" onclick="switchSub('rw-buttons', 'rw-group', this)">Button labels</button>
+      <button class="sub-tab-btn" onclick="switchSub('rw-status', 'rw-group', this)">Status & confirmations</button>
+    </div>
+
+    <div id="rw-errors" class="sub-panel active rw-group">
+      <div class="rw-item">
+        <div class="rw-header"><span class="rw-header-label">Upload failure</span><span class="rw-type-tag">Error message</span></div>
+        <div class="rw-cols">
+          <div class="rw-col"><div class="rw-col-label label-b">Before</div><div class="copy-before">Upload failed.</div></div>
+          <div class="rw-col"><div class="rw-col-label label-a">After</div><div class="copy-after">Your file didn't upload. Check your connection and try again.</div></div>
+        </div>
+        <div class="rw-rationale"><span class="principle-tag">Active voice</span><span class="principle-tag">Second person</span><span class="principle-tag">What + what to do</span> Spectrum error pattern: state what happened in plain language, then give the user a path forward. The original omits both the user and the action.</div>
+      </div>
+      <div class="rw-item">
+        <div class="rw-header"><span class="rw-header-label">Permission error</span><span class="rw-type-tag">Error message</span></div>
+        <div class="rw-cols">
+          <div class="rw-col"><div class="rw-col-label label-b">Before</div><div class="copy-before">Access denied. Insufficient permissions.</div></div>
+          <div class="rw-col"><div class="rw-col-label label-a">After</div><div class="copy-after">You don't have access to this project. Ask your workspace admin to update your permissions.</div></div>
+        </div>
+        <div class="rw-rationale"><span class="principle-tag">Second person</span><span class="principle-tag">Human tone</span><span class="principle-tag">Actionable</span> "Access denied" is system language. Spectrum calls for human-centered framing that gives users a concrete next step — including who to contact.</div>
+      </div>
+      <div class="rw-item">
+        <div class="rw-header"><span class="rw-header-label">Network error during review</span><span class="rw-type-tag">Error message</span></div>
+        <div class="rw-cols">
+          <div class="rw-col"><div class="rw-col-label label-b">Before</div><div class="copy-before">Connection error. Unable to load review.</div></div>
+          <div class="rw-col"><div class="rw-col-label label-a">After</div><div class="copy-after">Can't connect right now. Your comments are saved — refresh when you're back online.</div></div>
+        </div>
+        <div class="rw-rationale"><span class="principle-tag">Reassurance</span><span class="principle-tag">Data safety</span><span class="principle-tag">Active voice</span> Frame.io users fear losing timecode comments. The rewrite addresses that fear directly — a Frame.io-specific content principle extending Spectrum's tone guidance into product context.</div>
+      </div>
+    </div>
+
+    <div id="rw-empty" class="sub-panel rw-group">
+      <div class="rw-item">
+        <div class="rw-header"><span class="rw-header-label">No search results</span><span class="rw-type-tag">Empty state</span></div>
+        <div class="rw-cols">
+          <div class="rw-col"><div class="rw-col-label label-b">Before</div><div class="copy-before">No results found.</div></div>
+          <div class="rw-col"><div class="rw-col-label label-a">After</div><div class="copy-after">Nothing matched that search. Try different keywords, or search by clip type, date, or status.</div></div>
+        </div>
+        <div class="rw-rationale"><span class="principle-tag">Actionable</span><span class="principle-tag">Product-fluent</span> The rewrite surfaces Frame.io's actual search capabilities rather than leaving the user stranded. Spectrum empty state pattern: always give the user a way forward.</div>
+      </div>
+      <div class="rw-item">
+        <div class="rw-header"><span class="rw-header-label">Empty project</span><span class="rw-type-tag">Empty state</span></div>
+        <div class="rw-cols">
+          <div class="rw-col"><div class="rw-col-label label-b">Before</div><div class="copy-before">No assets in this project.</div></div>
+          <div class="rw-col"><div class="rw-col-label label-a">After</div><div class="copy-after">This project is empty. Upload footage, or connect a camera to start bringing media in.</div></div>
+        </div>
+        <div class="rw-rationale"><span class="principle-tag">Action-oriented</span><span class="principle-tag">Camera to Cloud</span><span class="principle-tag">Invitational tone</span> "No assets" describes a state. The rewrite opens a door — and specifically surfaces Camera to Cloud as a natural next step, reinforcing a flagship Frame.io differentiator.</div>
+      </div>
+    </div>
+
+    <div id="rw-buttons" class="sub-panel rw-group">
+      <div class="rw-item">
+        <div class="rw-header"><span class="rw-header-label">Primary action buttons — three patterns found on one screen</span><span class="rw-type-tag">Button labels</span></div>
+        <div class="rw-cols">
+          <div class="rw-col">
+            <div class="rw-col-label label-b">Before</div>
+            <div class="copy-before" style="line-height: 2.2;">Create New Project<br>Share Review Link<br>Add To Collection</div>
+          </div>
+          <div class="rw-col">
+            <div class="rw-col-label label-a">After</div>
+            <div class="copy-after" style="line-height: 2.2;">Create project<br>Share review link<br>Add to collection</div>
+          </div>
+        </div>
+        <div class="rw-rationale"><span class="principle-tag">Sentence case</span><span class="principle-tag">Spectrum mechanic</span> The most frequent, most visible Spectrum violation in Frame.io's UI. Title case in button labels is a marketing convention that leaked into product. Spectrum is unambiguous: sentence case everywhere in product UI.</div>
+      </div>
+    </div>
+
+    <div id="rw-status" class="sub-panel rw-group">
+      <div class="rw-item">
+        <div class="rw-header"><span class="rw-header-label">Processing status</span><span class="rw-type-tag">Status message</span></div>
+        <div class="rw-cols">
+          <div class="rw-col"><div class="rw-col-label label-b">Before</div><div class="copy-before">File is being processed.</div></div>
+          <div class="rw-col"><div class="rw-col-label label-a">After</div><div class="copy-after">Processing your file. This usually takes a minute.</div></div>
+        </div>
+        <div class="rw-rationale"><span class="principle-tag">Active voice</span><span class="principle-tag">Expectation-setting</span> Passive constructions drop the user from the sentence and offer no timing signal. The rewrite is active, sets an expectation, and reduces anxiety during a wait state.</div>
+      </div>
+      <div class="rw-item">
+        <div class="rw-header"><span class="rw-header-label">Version published</span><span class="rw-type-tag">Success toast</span></div>
+        <div class="rw-cols">
+          <div class="rw-col"><div class="rw-col-label label-b">Before</div><div class="copy-before">Version upload completed successfully.</div></div>
+          <div class="rw-col"><div class="rw-col-label label-a">After</div><div class="copy-after">New version uploaded. Your team can review it now.</div></div>
+        </div>
+        <div class="rw-rationale"><span class="principle-tag">Active voice</span><span class="principle-tag">Collaborative framing</span><span class="principle-tag">Product-fluent</span> "Completed successfully" is redundant system-speak. Frame.io's product context is collaborative — the rewrite connects the action to its purpose: enabling the team to review.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── GLOSSARY ── -->
+<section id="glossary" class="section">
+  <div class="container">
+    <p class="section-eyebrow">07 — Terminology glossary</p>
+    <h2 class="section-title">Frame.io canonical terms</h2>
+    <p class="section-intro">Spectrum-aligned definitions and usage rules for Frame.io's 10 most critical terms. Filter by category to isolate cross-Adobe conflicts or Frame.io-native vocabulary worth protecting.</p>
+
+    <div class="gl-filters">
+      <button class="filter-btn active" onclick="filterGl('all', this)">All terms</button>
+      <button class="filter-btn" onclick="filterGl('native', this)">Frame.io-native</button>
+      <button class="filter-btn" onclick="filterGl('conflict', this)">Cross-Adobe conflicts</button>
+      <button class="filter-btn" onclick="filterGl('core', this)">Core product</button>
+    </div>
+
+    <div id="gl-list">
+      <div class="gl-item" data-cat="native">
+        <div><div class="gl-term">Version stack</div><div class="gl-type">Noun — Frame.io-native</div></div>
+        <div>
+          <div class="gl-def">A group of iterations of the same asset, stacked so reviewers can compare versions without separate files or folders. The active version is shown by default.</div>
+          <div class="gl-usage">Use <code>version stack</code>, not <code>version history</code>, <code>revisions</code>, or <code>iterations</code>. Always lowercase in body copy. Capitalize only when used as a proper UI label.</div>
+        </div>
+      </div>
+      <div class="gl-item" data-cat="native">
+        <div><div class="gl-term">Camera to Cloud</div><div class="gl-type">Proper noun — Frame.io-native</div></div>
+        <div>
+          <div class="gl-def">Frame.io's workflow that sends footage from a camera directly to the cloud during production, giving remote teams and editors access to dailies in near-real time.</div>
+          <div class="gl-usage">Always title-cased as a proper noun. Do not abbreviate to <code>C2C</code> in user-facing copy. Pair with a brief description on first use per page.</div>
+        </div>
+      </div>
+      <div class="gl-item" data-cat="conflict">
+        <div><div class="gl-term">Project</div><div class="gl-type">Noun — cross-Adobe conflict</div></div>
+        <div>
+          <div class="gl-def">In Frame.io: a top-level organizational container that holds assets, folders, version stacks, and review activity for a production or deliverable.</div>
+          <div class="gl-usage">Use <code>project</code> consistently in Frame.io UI. Do not substitute <code>folder</code>, <code>workspace</code>, or <code>library</code>.</div>
+          <div class="gl-conflict">Conflict: In Adobe Premiere Pro and After Effects, "project" refers to a .prproj file. Users moving between products may conflate these — use contextual cues (e.g., "Frame.io project") in cross-product documentation.</div>
+        </div>
+      </div>
+      <div class="gl-item" data-cat="conflict">
+        <div><div class="gl-term">Workspace</div><div class="gl-type">Noun — cross-Adobe conflict</div></div>
+        <div>
+          <div class="gl-def">In Frame.io V4: the top-level account scope that contains projects, members, and settings. Roughly analogous to an organization or team account.</div>
+          <div class="gl-usage">Use <code>workspace</code> for the Frame.io account scope. Avoid using it as a synonym for "environment" or "interface."</div>
+          <div class="gl-conflict">Conflict: In Adobe Creative Cloud applications, "workspace" refers to panel layout configuration. These are unrelated concepts with identical names — flag in cross-product content.</div>
+        </div>
+      </div>
+      <div class="gl-item" data-cat="conflict">
+        <div><div class="gl-term">Collection</div><div class="gl-type">Noun — cross-Adobe conflict</div></div>
+        <div>
+          <div class="gl-def">In Frame.io V4: a smart folder that dynamically groups assets based on defined criteria (task, status, assignment, metadata). Collections update in real time as assets match the rules.</div>
+          <div class="gl-usage">Use <code>collection</code> (lowercase) in body copy. Distinguish from static folders: "a collection automatically stays up to date."</div>
+          <div class="gl-conflict">Conflict: Adobe Lightroom also uses "Collections" for manual or smart groupings of photos. Avoid using "Collection" without Frame.io context in cross-Adobe materials.</div>
+        </div>
+      </div>
+      <div class="gl-item" data-cat="conflict">
+        <div><div class="gl-term">Review</div><div class="gl-type">Noun / verb — cross-Adobe conflict</div></div>
+        <div>
+          <div class="gl-def">As a noun: a Frame.io shareable link or session in which stakeholders view and annotate media. As a verb: the act of viewing, commenting, and providing feedback on media in Frame.io.</div>
+          <div class="gl-usage">Distinguish from <code>approval</code> (a decision state) and <code>feedback</code> (the content of comments). Use: <code>share for review</code>, <code>review link</code>, <code>send to review</code>. Avoid: <code>review cycle</code> (jargon).</div>
+          <div class="gl-conflict">Conflict: Adobe broadly uses "review" in marketing copy without a product-specific meaning. Frame.io's definition should be referenced when publishing to the shared Adobe ecosystem.</div>
+        </div>
+      </div>
+      <div class="gl-item" data-cat="core">
+        <div><div class="gl-term">Timecode comment</div><div class="gl-type">Noun — Frame.io-native</div></div>
+        <div>
+          <div class="gl-def">A comment anchored to a specific frame or timecode in a video asset, allowing precise, frame-accurate feedback without ambiguity.</div>
+          <div class="gl-usage">Two words, no hyphen. Use <code>timecode comment</code>, not <code>frame comment</code> or <code>annotation</code>. In marketing, pair with the precision benefit: "leave feedback at the exact frame."</div>
+        </div>
+      </div>
+      <div class="gl-item" data-cat="core">
+        <div><div class="gl-term">Approval</div><div class="gl-type">Noun / verb — core product</div></div>
+        <div>
+          <div class="gl-def">A formal decision state indicating that an asset or version has been accepted by a stakeholder. Distinct from a review (the process) and feedback (the commentary).</div>
+          <div class="gl-usage">Use: <code>approve</code>, <code>approved</code>, <code>request approval</code>. Avoid conflating with <code>review</code>. In UI, approval status should be visually distinct from review status.</div>
+        </div>
+      </div>
+      <div class="gl-item" data-cat="core">
+        <div><div class="gl-term">Asset</div><div class="gl-type">Noun — core product</div></div>
+        <div>
+          <div class="gl-def">Any media file uploaded to Frame.io — video, image, audio, or document. The base unit of the Frame.io content model.</div>
+          <div class="gl-usage">Use <code>asset</code> in product UI and technical contexts. In user-facing marketing or onboarding, prefer plain language: <code>file</code>, <code>footage</code>, <code>video</code> depending on context. Don't use <code>asset</code> as a synonym for every noun in the system.</div>
+        </div>
+      </div>
+      <div class="gl-item" data-cat="native">
+        <div><div class="gl-term">Dailies</div><div class="gl-type">Noun — production vocabulary</div></div>
+        <div>
+          <div class="gl-def">Raw footage captured during a production day, typically reviewed by the director, DP, and editor before the next day of shooting. Frame.io is a primary platform for distributing dailies.</div>
+          <div class="gl-usage">Use in Frame.io marketing targeting production professionals. Substitute <code>footage</code> or <code>raw files</code> in broader onboarding contexts for non-production users.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── GAP ANALYSIS ── -->
+<section id="gaps" class="section">
+  <div class="container">
+    <p class="section-eyebrow">08 — Gap analysis</p>
+    <h2 class="section-title">Prioritized by impact</h2>
+    <p class="section-intro">Ranked by: user impact × frequency × strategic alignment with Spectrum integration. Gaps 1–2 are foundational blockers. Gaps 3–5 are high-frequency, high-visibility quick wins. Gaps 6–8 are important but non-blocking.</p>
+
+    <div class="gap-list">
+      <div class="gap-item">
+        <div class="gap-rank r1">1</div>
+        <div class="gap-body">
+          <h4>No Frame.io content foundation exists</h4>
+          <p>No voice principles, no product glossary, no UX writing guidelines. Everything is improvised or borrowed from Spectrum without Frame.io's practitioner context. This is the foundational blocker for all other gaps — fixing individual strings without a source of truth produces local improvements without systemic change.</p>
+          <div class="gap-example">Deliverable: Frame.io Content Foundations doc — voice principles, tone spectrum, product glossary, core mechanics</div>
+        </div>
+        <span class="impact imp-critical">Critical</span>
+      </div>
+      <div class="gap-item">
+        <div class="gap-rank r2">2</div>
+        <div class="gap-body">
+          <h4>Cross-product terminology conflicts (project, workspace, collection, review)</h4>
+          <p>At least 6 core terms are used inconsistently or conflict with Adobe ecosystem terminology. For users moving between Frame.io and Premiere, After Effects, or Creative Cloud, that's real friction. The cost is user confusion and increased support burden.</p>
+          <div class="gap-example">Fix: glossary + usage rules for top 10 conflicting terms, reviewed by Adobe Design xfn team</div>
+        </div>
+        <span class="impact imp-critical">Critical</span>
+      </div>
+      <div class="gap-item">
+        <div class="gap-rank r3">3</div>
+        <div class="gap-body">
+          <h4>Button & CTA capitalization inconsistency</h4>
+          <p>Frame.io V4 UI contains all three capitalization patterns in close proximity. Spectrum is unambiguous: sentence case. This is a high-visibility, high-frequency pattern that signals brand immaturity and creates scanning friction for users.</p>
+          <div class="gap-example">"Create New Project" / "share" / "Add to Review" — all found on one screen</div>
+        </div>
+        <span class="impact imp-high">High</span>
+      </div>
+      <div class="gap-item">
+        <div class="gap-rank r4">4</div>
+        <div class="gap-body">
+          <h4>Error message pattern gaps in embedded Adobe panels</h4>
+          <p>The Frame.io panel embedded in Premiere Pro shows error states that don't follow Spectrum's 3-part pattern (what happened, why, what to do). Users encountering errors at the creative tool / collaboration layer lose trust in both products simultaneously.</p>
+        </div>
+        <span class="impact imp-high">High</span>
+      </div>
+      <div class="gap-item">
+        <div class="gap-rank r5">5</div>
+        <div class="gap-body">
+          <h4>Passive voice dominates product status messages</h4>
+          <p>In-product status copy ("File is being processed," "Upload completed") uses passive constructions throughout. A systematic audit and rewrite of status strings is a discrete, high-impact project that can be batched into a single engineering sprint.</p>
+        </div>
+        <span class="impact imp-medium">Medium</span>
+      </div>
+      <div class="gap-item">
+        <div class="gap-rank r6">6</div>
+        <div class="gap-body">
+          <h4>Inclusive language audit not documented</h4>
+          <p>Spectrum has an explicit inclusive UX writing guide. Frame.io has legacy content with terms that don't meet current standards. No audit of Frame.io's inclusive language coverage has been completed or published.</p>
+        </div>
+        <span class="impact imp-medium">Medium</span>
+      </div>
+      <div class="gap-item">
+        <div class="gap-rank r7">7</div>
+        <div class="gap-body">
+          <h4>V3-era tooltip and modal copy not updated to V4 patterns</h4>
+          <p>Frame.io V4 represents a significant UX overhaul, but tooltip and contextual help copy from V3-era features persists throughout the product. These strings are verbose and don't reflect the V4 UX philosophy of fluid, minimal interruption.</p>
+        </div>
+        <span class="impact imp-medium">Medium</span>
+      </div>
+      <div class="gap-item">
+        <div class="gap-rank r8">8</div>
+        <div class="gap-body">
+          <h4>Marketing ↔ product language misalignment</h4>
+          <p>"Smart folders" becomes "Collections" in product but remains "smart folders" in some marketing contexts. Users following marketing-to-product journeys encounter friction at the moment of entry — a trust-eroding inconsistency that's straightforward to fix once the terminology work is done.</p>
+        </div>
+        <span class="impact imp-low">Low–med</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ROADMAP ── -->
+<section id="roadmap" class="section">
+  <div class="container">
+    <p class="section-eyebrow">09 — 30/60/90 day roadmap</p>
+    <h2 class="section-title">From audit to infrastructure</h2>
+    <p class="section-intro">A phased plan for the first 90 days — structured around the core principle: build the infrastructure first, then fix the strings. Each phase has a concrete deliverable and a connection back to Spectrum alignment.</p>
+
+    <div class="principle-block" style="margin-bottom: 40px;">
+      <p>The first 30 days aren't about rewriting copy. They're about building the shared understanding that makes every subsequent decision faster. The audit is the artifact. The rubric is the infrastructure. The team is the multiplier.</p>
+    </div>
+
+    <div class="phase-list">
+
+      <div class="phase-item">
+        <div class="phase-label"><strong>Day 1–30</strong>Foundation</div>
+        <div class="phase-body">
+          <h4>Establish the source of truth</h4>
+          <p>Before auditing anything, define "correct." Pull Spectrum's voice principles, grammar rules, and inclusive writing guidance as the baseline — then document where Spectrum is silent on Frame.io-specific needs. Create a lightweight scoring rubric: four criteria — voice/tone, capitalization/mechanics, terminology, and pattern compliance.</p>
+          <div class="week-list">
+            <div class="week-item"><div class="week-num">Weeks 1–2</div><div class="week-desc"><strong>Surface inventory.</strong> Map every surface where user-facing copy lives — core UI, error states, empty states, onboarding, notifications, embedded Premiere panel, help docs, marketing strings. Don't audit yet; build the map.</div></div>
+            <div class="week-item"><div class="week-num">Week 2–3</div><div class="week-desc"><strong>Scoring rubric.</strong> Draft and align the four-criteria rubric with 2–3 designers. Run it against a sample of 20 strings to calibrate. The goal is shared vocabulary, not a perfect document.</div></div>
+            <div class="week-item"><div class="week-num">Week 3–4</div><div class="week-desc"><strong>Audit sprint.</strong> Score the highest-frequency, highest-visibility surfaces first. Export strings from the string management system — don't screenshot. Tag each gap: severity, surface, pattern type, estimated fix effort.</div></div>
+          </div>
+          <div class="spectrum-callout"><strong>Spectrum alignment:</strong> Follows Spectrum's principle that content standards apply to US English as the source language before internationalization. The rubric extends Spectrum where it's silent on Frame.io-specific context.</div>
+        </div>
+      </div>
+
+      <div class="phase-item">
+        <div class="phase-label"><strong>Day 30–60</strong>Foundations</div>
+        <div class="phase-body">
+          <h4>Frame.io content foundations document</h4>
+          <p>Draft and socialize Frame.io's first dedicated content principles document. Co-created with the team — not handed down. Covers: voice character, tone dial, core glossary (20 terms, Spectrum-compatible definitions), sentence case rule, active voice rule, and inclusive language baseline.</p>
+          <div class="week-list">
+            <div class="week-item"><div class="week-num">Weeks 5–6</div><div class="week-desc"><strong>Draft voice principles.</strong> Three to five principles that capture what makes Frame.io copy sound like Frame.io. Tested against existing strings — both good examples and bad ones.</div></div>
+            <div class="week-item"><div class="week-num">Week 6–7</div><div class="week-desc"><strong>Terminology conflict resolution.</strong> Convene a cross-functional working group (Content, Design, PM, Localization) to resolve the top 6 cross-product term conflicts. Binding definitions published to the internal design wiki.</div></div>
+            <div class="week-item"><div class="week-num">Week 7–8</div><div class="week-desc"><strong>Practitioner review.</strong> Share the draft voice principles with 2–3 power users — an editor, a DP, a post-production supervisor. The production community is Frame.io's sharpest critics. Their input is part of the foundation, not an afterthought.</div></div>
+          </div>
+          <div class="spectrum-callout"><strong>Spectrum alignment:</strong> Addresses the cross-product consistency gap that Spectrum's component-level guidance doesn't currently cover for Frame.io-specific vocabulary. This document is where Spectrum and Frame.io meet.</div>
+        </div>
+      </div>
+
+      <div class="phase-item">
+        <div class="phase-label"><strong>Day 60–90</strong>Execution</div>
+        <div class="phase-body">
+          <h4>Fix the strings. Build the ritual.</h4>
+          <p>Now the infrastructure is in place. Run three parallel fix tracks: quick wins (sentence case, active voice rewrites — batch into engineering tickets), pattern decisions (error message structure, empty state model — content working sessions), and product decisions (terminology conflicts — already resolved in phase 2). Simultaneously, build the habit that keeps it going.</p>
+          <div class="week-list">
+            <div class="week-item"><div class="week-num">Weeks 9–10</div><div class="week-desc"><strong>Quick wins sprint.</strong> Target sentence case fixes and passive-to-active rewrites across the highest-traffic surfaces. Batch into engineering tickets. Ship them.</div></div>
+            <div class="week-item"><div class="week-num">Week 10–11</div><div class="week-desc"><strong>Pattern library v1.</strong> Document reusable patterns for empty states, error messages, confirmation dialogs, onboarding moments, and notification copy. These become the reference for all new feature work.</div></div>
+            <div class="week-item"><div class="week-num">Week 11–12</div><div class="week-desc"><strong>Content critique ritual.</strong> Launch a bi-weekly session where the team reviews new strings against the guidelines. This is how the standards propagate without a training deck. Begin inclusive language remediation in the top 20 legacy help docs.</div></div>
+          </div>
+          <div class="spectrum-callout"><strong>Spectrum alignment:</strong> Connects to Spectrum's pattern-level guidance while extending it with Frame.io-specific production vocabulary and context. The pattern library is the bridge between Spectrum's system and Frame.io's product reality.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<div class="footer">
+  <div class="container">
+    <p>Prepared by Josh for the Staff Content Strategist interview, Adobe Frame.io · April 2026</p>
+    <p style="margin-top: 8px; font-size: 12px;">Adobe, Frame.io, and Spectrum are trademarks of Adobe Inc. This is an independent audit prepared for interview purposes.</p>
+  </div>
+</div>
+
+<script>
+  // Sub-tab switching
+  function switchSub(id, group, btn) {
+    document.querySelectorAll('.' + group).forEach(p => p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.parentElement.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  // Glossary filter
+  function filterGl(cat, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('#gl-list .gl-item').forEach(item => {
+      item.style.display = (cat === 'all' || item.dataset.cat === cat) ? 'grid' : 'none';
+    });
+  }
+
+  // Active nav link on scroll
+  const sections = document.querySelectorAll('section[id], div.hero');
+  const navLinks = document.querySelectorAll('.nav-link');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id || 'overview';
+        navLinks.forEach(l => {
+          l.classList.toggle('active', l.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  document.querySelectorAll('section[id]').forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
